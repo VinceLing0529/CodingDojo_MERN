@@ -12,7 +12,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\OOP\\ninja.js"
+            "program": "${workspaceFolder}\\OOP\\superninja.js"
         }
     ]
 }
