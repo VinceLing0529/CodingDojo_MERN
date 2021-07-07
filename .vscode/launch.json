@@ -12,7 +12,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}\\Prediting_Des.js"
+            "program": "${workspaceFolder}\\OOP\\ninja.js"
         }
     ]
 }
