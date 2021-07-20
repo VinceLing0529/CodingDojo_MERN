@@ -1,31 +1,31 @@
-const User = require("../models/user.model");
+const Joker = require("../models/joker.model");
 
 module.exports.findAllUsers = (req, res) => {
-  User.find()
-    .then(allDaUsers => res.json({ users: allDaUsers }))
+  Joker.find()
+    .then(allDaUsers => res.json({ jokes: allDaUsers }))
     .catch(err => res.json({ message: "Something went wrong", error: err }));
 };
 
 module.exports.findOneSingleUser = (req, res) => {
-	User.findOne({ _id: req.params.id })
-		.then(oneSingleUser => res.json({ user: oneSingleUser }))
+	Joker.findOne({ _id: req.params.id })
+		.then(oneSingleUser => res.json({ joke: oneSingleUser }))
 		.catch(err => res.json({ message: "Something went wrong", error: err }));
 };
 
 module.exports.createNewUser = (req, res) => {
-  User.create(req.body)
-    .then(newlyCreatedUser => res.json({ user: newlyCreatedUser }))
+  Joker.create(req.body)
+    .then(newlyCreatedUser => res.json({ joke: newlyCreatedUser }))
     .catch(err => res.json({ message: "Something went wrong", error: err }));
 };
 
 module.exports.updateExistingUser = (req, res) => {
-  User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
-    .then(updatedUser => res.json({ user: updatedUser }))
+  Joker.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true })
+    .then(updatedUser => res.json({ joke: updatedUser }))
     .catch(err => res.json({ message: "Something went wrong", error: err }));
 };
 
 module.exports.deleteAnExistingUser = (req, res) => {
-  User.deleteOne({ _id: req.params.id })
+  Joker.deleteOne({ _id: req.params.id })
     .then(result => res.json({ result: result }))
     .catch(err => res.json({ message: "Something went wrong", error: err }));
 };
