@@ -1,0 +1,51 @@
+> use my_first_db
+switched to db my_first_db
+> db.createCollection("students")
+{ "ok" : 1 }
+> db.students.insert({name: STRING, home_state: STRING, lucky_number: NUMBER, birthday: {month: NUMBER, day: NUMBER, year: NUMBER}})
+uncaught exception: ReferenceError: STRING is not defined :
+@(shell):1:21
+> db.students.insert({name: "tome", home_state: "wa", lucky_number: 7, birthday: {month: 05, day: 29, year: 1998}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "vince", home_state: "ny", lucky_number: 58, birthday: {month: 06, day: 29, year: 1998}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "mary", home_state: "ca", lucky_number: 321, birthday: {month: 06, day: 8, year: 2002}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "gates", home_state: "or", lucky_number: 1, birthday: {month: 01, day: 01, year: 1952}})
+WriteResult({ "nInserted" : 1 })
+> db.students.insert({name: "nora", home_state: "va", lucky_number: 23, birthday: {month: 11, day: 11, year: 2011}})
+WriteResult({ "nInserted" : 1 })
+> db.students.find({})
+{ "_id" : ObjectId("60f62ede53434aa6cf9c51d1"), "name" : "tome", "home_state" : "wa", "lucky_number" : 7, "birthday" : { "month" : 5, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62ef553434aa6cf9c51d2"), "name" : "vince", "home_state" : "ny", "lucky_number" : 58, "birthday" : { "month" : 6, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62f1153434aa6cf9c51d3"), "name" : "mary", "home_state" : "ca", "lucky_number" : 321, "birthday" : { "month" : 6, "day" : 8, "year" : 2002 } }
+{ "_id" : ObjectId("60f62f2753434aa6cf9c51d4"), "name" : "gates", "home_state" : "or", "lucky_number" : 1, "birthday" : { "month" : 1, "day" : 1, "year" : 1952 } }
+{ "_id" : ObjectId("60f62f4753434aa6cf9c51d5"), "name" : "nora", "home_state" : "va", "lucky_number" : 23, "birthday" : { "month" : 11, "day" : 11, "year" : 2011 } }
+> db.students.find({home_state:"wa","ca"}）
+...
+... ^C
+
+> db.students.find({home_state:"wa"})
+{ "_id" : ObjectId("60f62ede53434aa6cf9c51d1"), "name" : "tome", "home_state" : "wa", "lucky_number" : 7, "birthday" : { "month" : 5, "day" : 29, "year" : 1998 } }
+> db.students.find({home_state:"wa" "ca" })
+uncaught exception: SyntaxError: missing } after property list :
+@(shell):1:34
+> db.students.find({"home_state":{"$in":["wa","ca"]}})
+{ "_id" : ObjectId("60f62ede53434aa6cf9c51d1"), "name" : "tome", "home_state" : "wa", "lucky_number" : 7, "birthday" : { "month" : 5, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62f1153434aa6cf9c51d3"), "name" : "mary", "home_state" : "ca", "lucky_number" : 321, "birthday" : { "month" : 6, "day" : 8, "year" : 2002 } }
+> db.students.find({lucky_number: {$gt: 3}})
+{ "_id" : ObjectId("60f62ede53434aa6cf9c51d1"), "name" : "tome", "home_state" : "wa", "lucky_number" : 7, "birthday" : { "month" : 5, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62ef553434aa6cf9c51d2"), "name" : "vince", "home_state" : "ny", "lucky_number" : 58, "birthday" : { "month" : 6, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62f1153434aa6cf9c51d3"), "name" : "mary", "home_state" : "ca", "lucky_number" : 321, "birthday" : { "month" : 6, "day" : 8, "year" : 2002 } }
+{ "_id" : ObjectId("60f62f4753434aa6cf9c51d5"), "name" : "nora", "home_state" : "va", "lucky_number" : 23, "birthday" : { "month" : 11, "day" : 11, "year" : 2011 } }
+> db.students.find({lucky_number: {$lte:10}})
+{ "_id" : ObjectId("60f62ede53434aa6cf9c51d1"), "name" : "tome", "home_state" : "wa", "lucky_number" : 7, "birthday" : { "month" : 5, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62f2753434aa6cf9c51d4"), "name" : "gates", "home_state" : "or", "lucky_number" : 1, "birthday" : { "month" : 1, "day" : 1, "year" : 1952 } }
+> db.students.find({lucky_number: {$gte:1,$lte:9 }})
+{ "_id" : ObjectId("60f62ede53434aa6cf9c51d1"), "name" : "tome", "home_state" : "wa", "lucky_number" : 7, "birthday" : { "month" : 5, "day" : 29, "year" : 1998 } }
+{ "_id" : ObjectId("60f62f2753434aa6cf9c51d4"), "name" : "gates", "home_state" : "or", "lucky_number" : 1, "birthday" : { "month" : 1, "day" : 1, "year" : 1952 } }
+
+
+db.students.update({"_id" : ObjectId("60f62f1153434aa6cf9c51d3")}, {$push: {interests: ['brunch','coding','MongoDB']}})
+
+db.students.remove({home_state: "ca"})
