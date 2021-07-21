@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { navigate } from '@reach/router';
 
 export default () => {
     //keep track of what is being typed via useState hook
@@ -18,6 +19,7 @@ export default () => {
         })
             .then(res=>console.log(res))
             .catch(err=>console.log(err))
+        navigate("/people")
     }
     //onChange to update firstName and lastName
     return (
