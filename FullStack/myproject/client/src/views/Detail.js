@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Link } from '@reach/router';
-import { navigate } from '@reach/router'
+import { navigate } from '@reach/router';
+import DeleteButton from '../components/DeleteButton';
 export default props => {
     const [person, setPerson] = useState({})
     useEffect(() => {
@@ -10,13 +11,6 @@ export default props => {
     }, [])
 
 
-
-    const deletePerson = (personId) => {
-        axios.delete('http://localhost:8000/api/people/' + personId)
-            
-        navigate('/people')
-        
-    }
     return (
         <div>
             <p>title: {person.title}</p>
@@ -25,9 +19,7 @@ export default props => {
             <Link to={"/people/" + person._id + "/edit"}>
     Edit
 </Link>
-<button onClick={(e)=>{deletePerson(person._id)}}>
-                        Delete
-                    </button>
+    <DeleteButton personId={person._id} successCallback={() => navigate("/people")} />
 
         </div>
     )

@@ -18,10 +18,17 @@ export default () => {
         setPeople(people.filter(person => person._id != personId));
     }
 
+    const createPerson = person => {
+        axios.post('http://localhost:8000/api/people', person)
+            .then(res=>{
+                setPeople([...people, res.data]);
+            })
+    }
 
+    
     return (
         <div>
-           <Personform/>
+           <Personform onSubmitProp={createPerson} i_title ="" i_price = "" i_description = ""/>
            <hr/>
            <h1>All products</h1>
            {loaded && <PersonList people={people} removeFromDom={removeFromDom}/>}

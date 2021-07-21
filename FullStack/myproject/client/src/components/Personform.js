@@ -2,25 +2,23 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { navigate } from '@reach/router';
 
-export default () => {
+export default  props => {
     //keep track of what is being typed via useState hook
-    const [title, setTitle] = useState(""); 
-    const [price, setPrice] = useState("");
-    const [description, setDescription] = useState("");
+    const{ onSubmitProp,i_title,i_price,i_description}= props;
+    const [title, setTitle] = useState(i_title); 
+    const [price, setPrice] = useState(i_price);
+    const [description, setDescription] = useState(i_description);
+
     //handler when the form is submitted
     const onSubmitHandler = e => {
         //prevent default behavior of the submit
         e.preventDefault();
         //make a post request to create a new person
-        axios.post('http://localhost:8000/api/people', {
-            title,
-            price,
-            description
-        })
-            .then(res=>console.log(res))
-            .catch(err=>console.log(err))
+        onSubmitProp({title,price, description});
         navigate("/people")
+
     }
+
     //onChange to update firstName and lastName
     return (
         <form onSubmit={onSubmitHandler}>

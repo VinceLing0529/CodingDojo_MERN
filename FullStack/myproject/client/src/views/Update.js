@@ -1,56 +1,41 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { Redirect } from '@reach/router';
+import Personform from '../components/Personform';
+import DeleteButton from '../components/DeleteButton';
+import { navigate } from '@reach/router';
 export default props => {
     const { id } = props;
-    const [title, setTitle] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
+    const [person, setPerson] = useState();
+    const [loaded, setLoaded] = useState(false);
+
     useEffect(() => {
         axios.get('http://localhost:8000/api/people/' + id)
             .then(res => {
-                setTitle(res.data.title);
-                setPrice(res.data.price);
-                setDescription(res.data.description);
+                setPerson(res.data);
+                setLoaded(true);
             })
     }, [])
-    const updatePerson = e => {
-        e.preventDefault();
-        axios.put('http://localhost:8000/api/people/' + id, {
-            title,
-            price,
-            description
-        })
-            .then(res => console.log(res)); 
-        
+    const updatePerson = person => {
+        axios.put('http://localhost:8000/api/people/' + id, person)
+            .then(res => console.log(res));
     }
     return (
         <div>
             <h1>Update a Person</h1>
-            <form onSubmit={updatePerson}>
-                <p>
-                    <label>title</label><br />
-                    <input type="text" 
-                    name="title" 
-                    value={title} 
-                    onChange={(e) => { setTitle(e.target.value) }} />
-                </p>
-                <p>
-                    <label>Price</label><br />
-                    <input type="text" 
-                    name="price" 
-                    value={price} 
-                    onChange={(e) => { setPrice(e.target.value) }} />
-                </p>
-                <p>
-                    <label>description</label><br />
-                    <input type="text" 
-                    name="description"
-                    value={description} 
-                    onChange={(e) => { setDescription(e.target.value) }} />
-                </p>
-                <input type="submit"></input>
-            </form>
+            {loaded && (
+                <>
+                    <Personform
+                        onSubmitProp={updatePerson}
+                        i_title={person.title}
+                        i_price={person.price}
+                        i_description = {person.description}
+                    />
+                    <DeleteButton personId={person._id} successCallback={() => navigate("/people")} />
+                </>
+            )}
         </div>
+        
     )
 }
+
