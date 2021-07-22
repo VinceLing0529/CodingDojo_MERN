@@ -2,6 +2,24 @@ import React, { useEffect, useState } from 'react';
 import Personform from '../components/Personform';
 import PersonList from '../components/PersonList';
 import axios from 'axios';
+import {
+    Paper,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    Button
+} from '@material-ui/core';
+const styles = {
+    paper: {
+        width: "20rem", padding: "1rem"
+    },
+    input: {
+        marginBottom: "1rem"
+    },
+    button: {
+        width: "100%"
+    }
+}
 
 export default () => {
     const [people, setPeople] = useState([]);
@@ -32,6 +50,10 @@ export default () => {
            <hr/>
            <h1>All products</h1>
            {loaded && <PersonList people={people} removeFromDom={removeFromDom}/>}
+
+        
         </div>
+
+        
     )
 }
